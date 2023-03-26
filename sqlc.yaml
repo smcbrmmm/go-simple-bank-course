@@ -1,0 +1,13 @@
+version: "1"
+packages:
+  - name: "db" # To tell sqlc what is the name of the go package that will be generate
+    path: "./db/sqlc" # path to the folder to store the generated golang code files
+    queries: "./db/query/" # To tell sqlc where to look for the sql query files
+    schema: "./db/migration/" # Where to store database schema or migration files
+    engine: "postgresql" # what database engine we would like to use
+    emit_json_tags: true # We want sqlc to add JSON tahs to the generated structs
+    emit_prepared_queries: false  # To generate codes that work with prepared statement
+    emit_interface: false # To tell sqlc to generate querier interface for the generated package
+    emit_exact_table_names: false # Sqlc will try to singularize the table name to use as the model struct name
+    emit_empty_slices: true # return the empty slice if no rows in table
+    # accounts table -> Account struct
