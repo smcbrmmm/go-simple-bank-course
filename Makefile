@@ -1,5 +1,5 @@
 postgres:
-	docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=password -d postgres:12-alpine
+	docker run --name postgres12 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=password -d postgres:12-alpine
 
 startdb:
 	docker start postgres12
@@ -27,3 +27,9 @@ test:
 
 server:
 	go run main.go
+
+buildimage:
+	docker build -t simplebank:lastest . 
+
+startsimple:
+	docker run --name simplebank --network bank-network  -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:password@postgres12:5432/simple_bank?sslmode=disable" -d simplebank:lastest
